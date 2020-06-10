@@ -1,8 +1,7 @@
 package servlet;
 
 import model.User;
-import service.UserService;
-
+import service.Service;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -13,7 +12,7 @@ import java.io.IOException;
 @WebServlet(value = "/edit")
 public class EditUserServlet extends HttpServlet {
 
-    private UserService service = UserService.getInstance();
+    Service service = Service.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -25,7 +24,7 @@ public class EditUserServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        int id = Integer.parseInt(req.getParameter("id"));
+        long id = Integer.parseInt(req.getParameter("id"));
         String name = req.getParameter("name");
         String email = req.getParameter("email");
         String dateOfBirth = req.getParameter("dateOfBirth");

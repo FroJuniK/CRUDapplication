@@ -1,8 +1,7 @@
 package servlet;
 
 import model.User;
-import service.UserService;
-
+import service.Service;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -23,7 +22,7 @@ public class AddUserServlet extends HttpServlet {
         String name = req.getParameter("name");
         String email = req.getParameter("email");
         String dateOfBirth = req.getParameter("dateOfBirth");
-        UserService.getInstance().addUser(new User(name, email, dateOfBirth));
+        Service.getInstance().addUser(new User(name, email, dateOfBirth));
         resp.sendRedirect("/");
     }
 }
