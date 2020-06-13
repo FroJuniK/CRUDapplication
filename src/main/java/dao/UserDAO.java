@@ -1,7 +1,7 @@
 package dao;
 
 import model.User;
-
+import util.DBHelper;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,8 +9,8 @@ import java.util.List;
 public class UserDAO {
     private Connection connection;
 
-    public UserDAO(Connection connection) {
-        this.connection = connection;
+    public UserDAO() {
+        this.connection = DBHelper.getConnection();
     }
 
     public List<User> getAllUsers() throws SQLException {
@@ -31,32 +31,38 @@ public class UserDAO {
     }
 
     public User getUserById(long id) throws SQLException {
-        Statement stmt = connection.createStatement();
-        stmt.execute("SELECT * FROM users WHERE id=" + id);
-        ResultSet result = stmt.getResultSet();
+        User user = null;
+        PreparedStatement prStmt = connection.prepareStatement("SELECT * FROM users WHERE id=?");
+        prStmt.setLong(1, id);
+        prStmt.execute();
+        ResultSet result = prStmt.getResultSet();
         if (result.next()) {
             String name = result.getString("name");
             String email = result.getString("email");
             String dateOfBirth = result.getString("dateOfBirth");
-            return new User(id, name, email, dateOfBirth);
-        } else {
-            return null;
+            user = new User(id, name, email, dateOfBirth);
         }
+        result.close();
+        prStmt.close();
+        return user;
     }
 
     public boolean addUser(User user) throws SQLException {
-        Statement stmt = connection.createStatement();
-        boolean isAdded = stmt.execute("INSERT INTO users (name, email, dateOfBirth) VALUES ('" +
-                user.getName() + "', '" +
-                user.getEmail() + "', '" +
-                user.getDateOfBirth() + "')");
+        PreparedStatement prStmt = connection.prepareStatement(
+                "INSERT INTO users (name, email, dateOfBirth) VALUES (?, ?, ?)");
+        prStmt.setString(1, user.getName());
+        prStmt.setString(2, user.getEmail());
+        prStmt.setString(3, user.getDateOfBirth());
+        boolean isAdded = prStmt.execute();
+        prStmt.close();
         return isAdded;
     }
 
     public boolean deleteUser(long id) throws SQLException {
-        Statement stmt = connection.createStatement();
-        int result = stmt.executeUpdate("DELETE FROM users WHERE id=" + id);
-        stmt.close();
+        PreparedStatement prStmt = connection.prepareStatement("DELETE FROM users WHERE id=?");
+        prStmt.setLong(1, id);
+        int result = prStmt.executeUpdate();
+        prStmt.close();
         return result > 0;
     }
 
@@ -87,33 +93,5 @@ public class UserDAO {
         Statement stmt = connection.createStatement();
         stmt.executeUpdate("DROP TABLE IF EXISTS users");
         stmt.close();
-    }
-
-    private static Connection getMysqlConnection() {
-        try {
-            DriverManager.registerDriver((Driver) Class.forName("com.mysql.jdbc.Driver").newInstance());
-
-            StringBuilder url = new StringBuilder();
-
-            url.
-                    append("jdbc:mysql://").        //db type
-                    append("localhost:").           //host name
-                    append("3306/").                //port
-                    append("db_example?").          //db name
-                    append("user=root&").           //login
-                    append("password=root").        //password
-                    append("&serverTimezone=UTC").  //setup server time
-                    append("&useSSL=false");
-
-            Connection connection = DriverManager.getConnection(url.toString());
-            return connection;
-        } catch (SQLException | InstantiationException | IllegalAccessException | ClassNotFoundException e) {
-            e.printStackTrace();
-            throw new IllegalStateException();
-        }
-    }
-
-    public static UserDAO getUserDAO() {
-        return new UserDAO(getMysqlConnection());
     }
 }

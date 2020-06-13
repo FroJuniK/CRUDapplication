@@ -20,7 +20,7 @@ public class EditUserServlet extends HttpServlet {
         int id = Integer.parseInt(req.getParameter("id"));
         User existingUser = service.getUserById(id);
         req.setAttribute("user", existingUser);
-        req.getRequestDispatcher("/views/edit.jsp").forward(req, resp);
+        req.getRequestDispatcher("/WEB-INF/views/edit.jsp").forward(req, resp);
     }
 
     @Override

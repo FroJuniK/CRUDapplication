@@ -8,7 +8,7 @@ import java.util.List;
 
 public class UserService {
     private static UserService userService;
-    private UserDAO dao = UserDAO.getUserDAO();
+    private UserDAO dao = new UserDAO();
 
     private UserService() {
     }

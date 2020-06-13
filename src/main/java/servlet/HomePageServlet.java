@@ -18,6 +18,6 @@ public class HomePageServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         List<User> users = UserService.getInstance().getAllUsers();
         req.setAttribute("users", users);
-        req.getRequestDispatcher("/views/homePage.jsp").forward(req, resp);
+        req.getRequestDispatcher("/WEB-INF/views/homePage.jsp").forward(req, resp);
     }
 }
