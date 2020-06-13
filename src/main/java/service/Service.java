@@ -3,21 +3,20 @@ package service;
 import dao.UserHibernateDAO;
 import dao.UserJdbcDAO;
 import model.User;
-import util.DBHelper;
 
 import java.util.List;
 
-public class UserService {
-    private static UserService userService;
-//    private UserJdbcDAO dao = new UserJdbcDAO(DBHelper.getConnection());
-    private UserHibernateDAO dao = new UserHibernateDAO(DBHelper.getSessionFactory().openSession());
+public class Service {
+    private static Service userService;
+//    private UserJdbcDAO dao = new UserJdbcDAO();
+    private UserHibernateDAO dao = new UserHibernateDAO();
 
-    private UserService() {
+    private Service() {
     }
 
-    public static UserService getInstance() {
+    public static Service getInstance() {
         if (userService == null) {
-            userService = new UserService();
+            userService = new Service();
         }
         return userService;
     }
