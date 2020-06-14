@@ -1,7 +1,7 @@
 package servlet;
 
 import model.User;
-import service.Service;
+import service.UserServiceImpl;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -14,7 +14,7 @@ public class AddUserServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        req.getRequestDispatcher("/views/add.jsp").forward(req, resp);
+        req.getRequestDispatcher("/WEB-INF/views/add.jsp").forward(req, resp);
     }
 
     @Override
@@ -22,7 +22,7 @@ public class AddUserServlet extends HttpServlet {
         String name = req.getParameter("name");
         String email = req.getParameter("email");
         String dateOfBirth = req.getParameter("dateOfBirth");
-        Service.getInstance().addUser(new User(name, email, dateOfBirth));
+        UserServiceImpl.getInstance().addUser(new User(name, email, dateOfBirth));
         resp.sendRedirect("/");
     }
 }

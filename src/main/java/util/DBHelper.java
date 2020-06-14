@@ -6,6 +6,7 @@ import java.sql.Connection;
 import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Properties;
 
 public class DBHelper {
 
@@ -21,22 +22,24 @@ public class DBHelper {
         return helper;
     }
 
-    public static Configuration getConfiguration() {
+    public Configuration getConfiguration() {
         Configuration configuration = new Configuration();
         configuration.addAnnotatedClass(User.class);
 
-        configuration.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
-        configuration.setProperty("hibernate.connection.driver_class", "com.mysql.jdbc.Driver");
-        configuration.setProperty("hibernate.connection.url", "jdbc:mysql://localhost:3306/db_example?serverTimezone=UTC&useSSL=false");
-        configuration.setProperty("hibernate.connection.username", "root");
-        configuration.setProperty("hibernate.connection.password", "root");
-        configuration.setProperty("hibernate.show_sql", "true");
-        configuration.setProperty("hibernate.hbm2ddl.auto", "update");
+        Properties prop = PropertyReader.getProperties("hibernate.properties");
+
+        configuration.setProperty("hibernate.dialect", prop.getProperty("hibernate.dialect"));
+        configuration.setProperty("hibernate.connection.driver_class", prop.getProperty("hibernate.connection.driver_class"));
+        configuration.setProperty("hibernate.connection.url", prop.getProperty("hibernate.connection.url"));
+        configuration.setProperty("hibernate.connection.username", prop.getProperty("hibernate.connection.username"));
+        configuration.setProperty("hibernate.connection.password", prop.getProperty("hibernate.connection.password"));
+        configuration.setProperty("hibernate.show_sql", prop.getProperty("hibernate.show_sql"));
+        configuration.setProperty("hibernate.hbm2ddl.auto", prop.getProperty("hibernate.hbm2ddl.auto"));
 
         return configuration;
     }
 
-    public static Connection getConnection() {
+    public Connection getConnection() {
         try {
             DriverManager.registerDriver((Driver) Class.forName("com.mysql.jdbc.Driver").newInstance());
 

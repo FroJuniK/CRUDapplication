@@ -1,7 +1,7 @@
 package servlet;
 
 import model.User;
-import service.Service;
+import service.UserServiceImpl;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -15,8 +15,8 @@ public class HomePageServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        List<User> users = Service.getInstance().getAllUsers();
+        List<User> users = UserServiceImpl.getInstance().getAllUsers();
         req.setAttribute("users", users);
-        req.getRequestDispatcher("/views/homePage.jsp").forward(req, resp);
+        req.getRequestDispatcher("/WEB-INF/views/homePage.jsp").forward(req, resp);
     }
 }

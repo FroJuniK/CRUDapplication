@@ -1,7 +1,7 @@
 package servlet;
 
 import model.User;
-import service.Service;
+import service.UserServiceImpl;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -12,14 +12,14 @@ import java.io.IOException;
 @WebServlet(value = "/edit")
 public class EditUserServlet extends HttpServlet {
 
-    Service service = Service.getInstance();
+    UserServiceImpl service = UserServiceImpl.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int id = Integer.parseInt(req.getParameter("id"));
         User existingUser = service.getUserById(id);
         req.setAttribute("user", existingUser);
-        req.getRequestDispatcher("/views/edit.jsp").forward(req, resp);
+        req.getRequestDispatcher("/WEB-INF/views/edit.jsp").forward(req, resp);
     }
 
     @Override

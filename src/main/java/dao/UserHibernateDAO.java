@@ -8,6 +8,7 @@ import org.hibernate.Transaction;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
+import util.DBHelper;
 import java.util.List;
 
 public class UserHibernateDAO implements UserDAO {
@@ -15,7 +16,8 @@ public class UserHibernateDAO implements UserDAO {
     private SessionFactory factory;
     Transaction transaction = null;
 
-    public UserHibernateDAO(Configuration configuration) {
+    public UserHibernateDAO() {
+        Configuration configuration = DBHelper.getInstance().getConfiguration();
         ServiceRegistry serviceRegistry = new StandardServiceRegistryBuilder().
                 applySettings(configuration.getProperties()).build();
 

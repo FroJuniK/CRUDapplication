@@ -1,6 +1,6 @@
 package servlet;
 
-import service.Service;
+import service.UserServiceImpl;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -14,7 +14,7 @@ public class DeleteUserServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         long id = Integer.parseInt(req.getParameter("id"));
-        Service.getInstance().deleteUser(id);
+        UserServiceImpl.getInstance().deleteUser(id);
         resp.sendRedirect("/");
     }
 }
