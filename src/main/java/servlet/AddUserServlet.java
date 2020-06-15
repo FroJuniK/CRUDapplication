@@ -20,9 +20,11 @@ public class AddUserServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String name = req.getParameter("name");
+        String password = req.getParameter("password");
+        String role = req.getParameter("role");
         String email = req.getParameter("email");
         String dateOfBirth = req.getParameter("dateOfBirth");
-        UserServiceImpl.getInstance().addUser(new User(name, email, dateOfBirth));
+        UserServiceImpl.getInstance().addUser(new User(name, password, role, email, dateOfBirth));
         resp.sendRedirect("/");
     }
 }

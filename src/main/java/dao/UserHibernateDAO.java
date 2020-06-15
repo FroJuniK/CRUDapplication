@@ -7,8 +7,10 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.query.Query;
 import org.hibernate.service.ServiceRegistry;
 import util.DBHelper;
+
 import java.util.List;
 
 public class UserHibernateDAO implements UserDAO {
@@ -37,6 +39,17 @@ public class UserHibernateDAO implements UserDAO {
         try (Session session = factory.openSession()) {
             User user = session.get(User.class, id);
             return user;
+        }
+    }
+
+    @Override
+    public User getUserByNameAndPassword(String name, String password) {
+        try (Session session = factory.openSession()) {
+            String hql = "FROM User WHERE name = :name AND password = :password";
+            Query query = session.createQuery(hql).
+                    setParameter("name", name).
+                    setParameter("password", password);
+            return (User) query.getSingleResult();
         }
     }
 

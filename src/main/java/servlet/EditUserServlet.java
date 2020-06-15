@@ -26,10 +26,12 @@ public class EditUserServlet extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         long id = Integer.parseInt(req.getParameter("id"));
         String name = req.getParameter("name");
+        String password = req.getParameter("password");
+        String role = req.getParameter("role");
         String email = req.getParameter("email");
         String dateOfBirth = req.getParameter("dateOfBirth");
 
-        service.editUser(new User(id, name, email, dateOfBirth));
+        service.editUser(new User(id, name, password, role, email, dateOfBirth));
         resp.sendRedirect("/");
     }
 }

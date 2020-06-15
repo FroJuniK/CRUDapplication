@@ -31,6 +31,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User getUserByNameAndPassword(String name, String password) {
+        return dao.getUserByNameAndPassword(name, password);
+    }
+
+    @Override
     public boolean addUser(User user) {
         return dao.addUser(user);
     }

@@ -14,6 +14,12 @@ public class User {
     @Column(name = "name")
     private String name;
 
+    @Column(name = "password")
+    private String password;
+
+    @Column(name = "role")
+    private String role;
+
     @Column(name = "email")
     private String email;
 
@@ -23,15 +29,19 @@ public class User {
     public User() {
     }
 
-    public User(String name, String email, String dateOfBirth) {
+    public User(String name, String password, String role, String email, String dateOfBirth) {
         this.name = name;
+        this.password = password;
+        this.role = role;
         this.email = email;
         this.dateOfBirth = dateOfBirth;
     }
 
-    public User(Long id, String name, String email, String dateOfBirth) {
+    public User(Long id, String name, String password, String role, String email, String dateOfBirth) {
         this.id = id;
         this.name = name;
+        this.password = password;
+        this.role = role;
         this.email = email;
         this.dateOfBirth = dateOfBirth;
     }
@@ -50,6 +60,22 @@ public class User {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 
     public String getEmail() {

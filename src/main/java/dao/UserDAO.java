@@ -8,6 +8,8 @@ public interface UserDAO {
 
     User getUserById(long id);
 
+    User getUserByNameAndPassword(String name, String password);
+
     boolean addUser(User user);
 
     boolean deleteUser(long id);

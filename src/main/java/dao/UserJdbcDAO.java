@@ -22,9 +22,11 @@ public class UserJdbcDAO implements UserDAO {
             while (result.next()) {
                 long id = result.getLong("id");
                 String name = result.getString("name");
+                String password = result.getString("password");
+                String role = result.getString("role");
                 String email = result.getString("email");
                 String dateOfBirth = result.getString("dateOfBirth");
-                list.add(new User(id, name, email, dateOfBirth));
+                list.add(new User(id, name, password, role, email, dateOfBirth));
             }
             result.close();
         } catch (SQLException e) {
@@ -42,9 +44,32 @@ public class UserJdbcDAO implements UserDAO {
             ResultSet result = prStmt.getResultSet();
             if (result.next()) {
                 String name = result.getString("name");
+                String password = result.getString("password");
+                String role = result.getString("role");
                 String email = result.getString("email");
                 String dateOfBirth = result.getString("dateOfBirth");
-                user = new User(id, name, email, dateOfBirth);
+                user = new User(id, name, password, role, email, dateOfBirth);
+            }
+            result.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return user;
+    }
+
+    @Override
+    public User getUserByNameAndPassword(String name, String password) {
+        User user = null;
+        try (PreparedStatement prStmt = connection.prepareStatement("SELECT * FROM users WHERE  name=? AND password=?")){
+            prStmt.setString(1, name);
+            prStmt.setString(2, password);
+            ResultSet result = prStmt.getResultSet();
+            if (result.next()) {
+                long id = result.getLong("id");
+                String role = result.getString("role");
+                String email = result.getString("email");
+                String dateOfBirth = result.getString("dateOfBirth");
+                user = new User(id, name, password, role, email, dateOfBirth);
             }
             result.close();
         } catch (SQLException e) {
@@ -57,10 +82,12 @@ public class UserJdbcDAO implements UserDAO {
     public boolean addUser(User user) {
         boolean isAdded = false;
         try (PreparedStatement prStmt = connection.prepareStatement(
-                "INSERT INTO users (name, email, dateOfBirth) VALUES (?, ?, ?)")) {
+                "INSERT INTO users (name, password, role, email, dateOfBirth) VALUES (?, ?, ?, ?, ?)")) {
             prStmt.setString(1, user.getName());
-            prStmt.setString(2, user.getEmail());
-            prStmt.setString(3, user.getDateOfBirth());
+            prStmt.setString(2, user.getPassword());
+            prStmt.setString(3, user.getRole());
+            prStmt.setString(4, user.getEmail());
+            prStmt.setString(5, user.getDateOfBirth());
             isAdded = prStmt.execute();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -84,11 +111,13 @@ public class UserJdbcDAO implements UserDAO {
     public boolean editUser(User user) {
         int result = 0;
         try (PreparedStatement prStmt = connection.prepareStatement(
-                "UPDATE users SET name=?, email=?, dateOfBirth=? WHERE id=?")) {
+                "UPDATE users SET name=?, password=?, role=?, email=?, dateOfBirth=? WHERE id=?")) {
             prStmt.setString(1, user.getName());
-            prStmt.setString(2, user.getEmail());
-            prStmt.setString(3, user.getDateOfBirth());
-            prStmt.setLong(4, user.getId());
+            prStmt.setString(2, user.getPassword());
+            prStmt.setString(3, user.getRole());
+            prStmt.setString(4, user.getEmail());
+            prStmt.setString(5, user.getDateOfBirth());
+            prStmt.setLong(6, user.getId());
             result = prStmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
