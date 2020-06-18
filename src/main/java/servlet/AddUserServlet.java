@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(value = "/add")
+@WebServlet(value = "/admin/add")
 public class AddUserServlet extends HttpServlet {
 
     @Override
@@ -25,6 +25,6 @@ public class AddUserServlet extends HttpServlet {
         String email = req.getParameter("email");
         String dateOfBirth = req.getParameter("dateOfBirth");
         UserServiceImpl.getInstance().addUser(new User(name, password, role, email, dateOfBirth));
-        resp.sendRedirect("/");
+        resp.sendRedirect("/admin");
     }
 }

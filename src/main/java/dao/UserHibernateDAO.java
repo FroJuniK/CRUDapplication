@@ -29,7 +29,7 @@ public class UserHibernateDAO implements UserDAO {
     @Override
     public List<User> getAllUsers() {
         try (Session session = factory.openSession()) {
-            List<User> list = session.createQuery("FROM model.User").list();
+            List<User> list = session.createQuery("FROM User").list();
             return list;
         }
     }

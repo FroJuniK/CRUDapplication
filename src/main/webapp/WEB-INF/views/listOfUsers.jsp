@@ -14,6 +14,8 @@
         <tr>
             <th>ID</th>
             <th>Name</th>
+            <th>Password</th>
+            <th>Role</th>
             <th>Email</th>
             <th>Date Of Birth</th>
             <th>Actions</th>
@@ -22,19 +24,21 @@
             <tr>
                 <td><c:out value="${user.id}"/></td>
                 <td><c:out value="${user.name}"/></td>
+                <td><c:out value="${user.password}"/></td>
+                <td><c:out value="${user.role}"/></td>
                 <td><c:out value="${user.email}"/></td>
                 <td><c:out value="${user.dateOfBirth}"/></td>
                 <td>
-                    <a href="edit?id=<c:out value='${user.id}' />">Edit</a>
+                    <a href="admin/edit?id=<c:out value='${user.id}' />">Edit</a>
                     &nbsp;&nbsp;&nbsp;&nbsp;
-                    <a href="delete?id=<c:out value='${user.id}' />">Delete</a>
+                    <a href="admin/delete?id=<c:out value='${user.id}' />">Delete</a>
                 </td>
             </tr>
         </c:forEach>
     </table>
 
     <h3>
-        <a href="add">Add New User</a>
+        <a href="admin/add">Add New User</a>
     </h3>
 </div>
 </body>

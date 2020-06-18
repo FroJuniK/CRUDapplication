@@ -1,5 +1,6 @@
-package servlet;
+package filter;
 
+import model.User;
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
@@ -7,8 +8,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-@WebFilter("/admin")
-public class FilterServlet implements Filter {
+@WebFilter("/admin/*")
+public class AdminFilter implements Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest req = (HttpServletRequest) request;
@@ -16,12 +17,12 @@ public class FilterServlet implements Filter {
 
         HttpSession session = req.getSession(false);
 
-        if (session != null && session.getAttribute("role") != null) {
-            String role = session.getAttribute("role").toString();
-            if (role.equals("user")) {
-                resp.sendRedirect("/user");
-            } else if (role.equals("admin")) {
-                resp.sendRedirect("/admin");
+        if (session != null) {
+            User user = (User) session.getAttribute("sessionUser");
+            if (user.getRole().equals("admin")) {
+                chain.doFilter(request, response);
+            } else {
+                resp.sendRedirect("/");
             }
         }
     }

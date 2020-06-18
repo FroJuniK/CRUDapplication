@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(value = "/edit")
+@WebServlet(value = "/admin/edit")
 public class EditUserServlet extends HttpServlet {
 
     UserServiceImpl service = UserServiceImpl.getInstance();
@@ -32,6 +32,6 @@ public class EditUserServlet extends HttpServlet {
         String dateOfBirth = req.getParameter("dateOfBirth");
 
         service.editUser(new User(id, name, password, role, email, dateOfBirth));
-        resp.sendRedirect("/");
+        resp.sendRedirect("/admin");
     }
 }

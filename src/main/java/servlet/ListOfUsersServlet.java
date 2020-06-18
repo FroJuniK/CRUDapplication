@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(name = "/admin")
+@WebServlet(value = "/admin")
 public class ListOfUsersServlet extends HttpServlet {
 
     @Override
